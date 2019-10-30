@@ -1,24 +1,43 @@
 const get = require("lodash.get");
 
-const request = (event, extend) => {
-  const obj = { ...event, ...extend };
-
-  obj.safeGet = (path, defaultValue = false) => get(event, path, defaultValue);
-  obj.safeGet = (path, defaultValue = false) => get(event, path, defaultValue);
-
-  if (obj.httpMethod) {
-    try {
-      obj.body = JSON.parse(get(obj, "body", JSON.stringify({})));
-    } catch (error) {
-      obj.body = get(obj, "body", "");
-    }
-
-    obj.headers = get(obj, "headers", {});
-    obj.queryStringParameters = get(obj, "queryStringParameters", {});
-    obj.pathParameters = get(obj, "pathParameters", {});
+class Request {
+  constructor(event, context) {
+    this.event = { ...event };
+    this.context = context;
   }
 
-  return obj;
-};
+  get(path, defaultValue = false) {
+    return get(this.event, path, defaultValue);
+  }
 
-module.exports = request;
+  get headers() {
+    return get(this.event, "headers", {});
+  }
+
+  get queryStringParameters() {
+    return get(this.event, "queryStringParameters", {});
+  }
+
+  get pathParameters() {
+    return get(this.event, "pathParameters", {});
+  }
+
+  get params() {
+    return {
+      body: this.body,
+      pathParameters: this.pathParameters,
+      queryStringParameters: this.queryStringParameters
+    };
+  }
+
+  get body() {
+    let _body = "";
+    try {
+      _body = JSON.parse(get(this.event, "body", JSON.stringify({})));
+    } catch (error) {}
+
+    return _body;
+  }
+}
+
+module.exports = Request;

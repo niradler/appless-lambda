@@ -1,7 +1,6 @@
 {
   "name": "lambda-tool",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +11,18 @@
   "dependencies": {
     "jest": "^24.9.0",
     "lodash.get": "^4.4.2"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niradler/lambda-tool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/niradler/lambda-tool/issues"
+  },
+  "homepage": "https://github.com/niradler/lambda-tool#readme",
+  "description": ""
 }

@@ -1,13 +1,33 @@
 class Response {
-  constructor(context) {
+  constructor(context, callback) {
     this.context = context;
+    this.callback = callback;
+
+    this.reset();
+  }
+
+  reset() {
     this.status = 200;
     this.headers = {};
   }
 
-  json(body) {}
-  send(body) {}
-  render(filename) {}
+  createResponse(body = {}) {
+    const success = {
+      body,
+      statusCode: this.status,
+      headers: this.headers
+    };
+    this.reset();
+    this.done(null, JSON.stringify(success));
+  }
+
+  json(body) {
+    this.createResponse(JSON.stringify(body));
+  }
+
+  send(body) {
+    this.createResponse(body);
+  }
 
   setStatus(status) {
     this.status = status;
@@ -15,13 +35,23 @@ class Response {
   setHeaders(headers) {
     this.headers = headers;
   }
-  redirect(path) {
-    this.status = 302;
+
+  redirect(url, redirectStatus = 301) {
+    this.status = redirectStatus;
+    this.headers = {
+      Location: url
+    };
+
+    return createResponse();
   }
 
-  redirect() {}
-  redirect() {}
-  redirect() {}
+  done(error, success) {
+    this.context.done(error, success);
+  }
+
+  get callback() {
+    return this.callback;
+  }
 }
 
 module.exports = Response;
