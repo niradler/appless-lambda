@@ -1,6 +1,6 @@
 const get = require("lodash.get");
 
-class Request {
+class _Request {
   constructor(event, context) {
     this.event = { ...event };
     this.context = context;
@@ -11,15 +11,18 @@ class Request {
   }
 
   get headers() {
-    return get(this.event, "headers", {});
+    const headers = get(this.event, "headers", {});
+    return headers ? headers : {};
   }
 
   get queryStringParameters() {
-    return get(this.event, "queryStringParameters", {});
+    const queryStringParameters = get(this.event, "queryStringParameters", {});
+    return queryStringParameters ? queryStringParameters : {};
   }
 
   get pathParameters() {
-    return get(this.event, "pathParameters", {});
+    const pathParameters = get(this.event, "pathParameters", {});
+    return pathParameters ? pathParameters : {};
   }
 
   get params() {
@@ -34,10 +37,12 @@ class Request {
     let _body = "";
     try {
       _body = JSON.parse(get(this.event, "body", JSON.stringify({})));
-    } catch (error) {}
+    } catch (error) {
+      console.error(error.message);
+    }
 
-    return _body;
+    return _body ? _body : {};
   }
 }
 
-module.exports = Request;
+module.exports = _Request;

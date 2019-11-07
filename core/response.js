@@ -1,4 +1,4 @@
-class Response {
+class _Response {
   constructor(context, callback) {
     this.context = context;
     this.callback = callback;
@@ -18,22 +18,23 @@ class Response {
       headers: this.headers
     };
     this.reset();
-    this.done(null, JSON.stringify(success));
+
+    return success;
   }
 
   json(body) {
-    this.createResponse(JSON.stringify(body));
+    return this.createResponse(JSON.stringify(body));
   }
 
   send(body) {
-    this.createResponse(body);
+    return this.createResponse(body);
   }
 
   setStatus(status) {
-    this.status = status;
+    return (this.status = status);
   }
   setHeaders(headers) {
-    this.headers = headers;
+    return (this.headers = headers);
   }
 
   redirect(url, redirectStatus = 301) {
@@ -48,10 +49,6 @@ class Response {
   done(error, success) {
     this.context.done(error, success);
   }
-
-  get callback() {
-    return this.callback;
-  }
 }
 
-module.exports = Response;
+module.exports = _Response;

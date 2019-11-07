@@ -7,6 +7,10 @@ class App {
     this.middlewares = [];
   }
 
+  controller(fn) {
+    this.fn = fn;
+  }
+
   use(fn, promise = false) {
     this.middlewares.push({ fn, promise });
   }
@@ -42,3 +46,5 @@ class App {
     return this.run();
   }
 }
+
+module.exports = App;
