@@ -11,7 +11,7 @@
   "dependencies": {
     "bunyan": "^1.8.12",
     "bunyan-format": "^0.2.1",
-    "jest": "^24.9.0",
+    "jest": "^25.0.0",
     "lodash.get": "^4.4.2"
   },
   "directories": {
